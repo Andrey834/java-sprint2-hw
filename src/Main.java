@@ -12,16 +12,23 @@ public class Main {
         while (true) {
             printMenu();
             int userInput = inputCommand.nextInt();
-            MonthlyReport monthlyReport = new MonthlyReport();
-            //MonthlyReport monthlyReport = new MonthlyReport();
+            MonthlyReport monthlyReport = new MonthlyReport();//MonthlyReport monthlyReport = new MonthlyReport();
 
 
             if (userInput == 1) {
-                monthlyReport.loadFileMonth();
+                //monthlyReport.loadFileMonth();
+                //System.out.println(monthlyReport.getMaxProfitM(monthlyReport.loadFileMonth()));
+                //monthlyReport.loadFileMonth().size();
+                System.out.println(monthlyReport.loadFileMonth().get(0));
+
+                for (MonthlyConstructor monthlyConstructor : monthlyReport.dbReportMonth) {
+                    System.out.printf("%-10s %-40s %-20s %-20s %s %n", monthlyConstructor.month,  monthlyConstructor.title, monthlyConstructor.isExpense, monthlyConstructor.quantity, monthlyConstructor.priceOne);
+
+                }
             } else if (userInput == 2) {
                 //read.loadFileYear();
             } else if (userInput == 3) {
-                monthlyReport.getMaxProfitM();
+
 
             } else if (userInput == 4) {
 
