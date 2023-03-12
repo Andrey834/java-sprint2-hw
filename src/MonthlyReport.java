@@ -7,16 +7,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
- class MonthlyReport {
+class MonthlyReport {
 
-     private final String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
-    //public ArrayList<MonthlyConstructor> dbReportMonth = new ArrayList<>();
-    //PrintMenu printMenu = new PrintMenu();
-    //public ArrayList<String> checkLoadMonth = new ArrayList<>();
+    public String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
 
-    protected void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths) {
-        ArrayList<MonthlyConstructor> transToHash = new ArrayList<>();
+    protected void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports) {
+        //ArrayList<MonthlyConstructor> transToHash = new ArrayList<>();
         for (var i = 1; i < 13; i++) {
+            ArrayList<MonthlyConstructor> transToHash = new ArrayList<>();
             var file = "";
             if (i < 10) {
                 file = ("resources/m.20210" + i + ".csv");
@@ -38,8 +36,44 @@ import java.util.List;
                 MonthlyConstructor monthlyConstructor = new MonthlyConstructor(title, isExpense, quantity, priceOne);
                 transToHash.add(monthlyConstructor);
             }
-            dbReportMonths.put(months[i-1],transToHash);
+            dbMonthReports.put(months[i - 1], transToHash);
         }
+    }
+
+    public void getMaxValue(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports, String month) {
+        int maxSumProfit = 0;
+        String getItemMax = null;
+        int maxSumLoss = 0;
+        String getItemMaxLoss = null;
+
+        for (MonthlyConstructor monthlyConstructor : dbMonthReports.get(month)) {
+            if (!monthlyConstructor.isExpense) {
+                int currentProfit = monthlyConstructor.quantity * monthlyConstructor.priceOne;
+                if (maxSumProfit < currentProfit) {
+                    getItemMax = monthlyConstructor.title;
+                    maxSumProfit = currentProfit;
+                }
+            }
+        }
+        for (MonthlyConstructor monthlyConstructor : dbMonthReports.get(month)) {
+            if (monthlyConstructor.isExpense) {
+                int currentProfit = monthlyConstructor.quantity * monthlyConstructor.priceOne;
+                if (maxSumLoss < currentProfit) {
+                    getItemMaxLoss = monthlyConstructor.title;
+                    maxSumLoss = currentProfit;
+                }
+            }
+        }
+        System.out.println("===========================");
+        System.out.println(month);
+        System.out.println("===========================");
+        System.out.println("Самый прибыльный товар:");
+        System.out.println(getItemMax);
+        System.out.println(maxSumProfit);
+        System.out.println("---------------------------");
+        System.out.println("Самая большая трата:");
+        System.out.println(getItemMaxLoss);
+        System.out.println(maxSumLoss);
     }
 
     public void getMaxProfitM(ArrayList<MonthlyConstructor> dbReportMonth) {

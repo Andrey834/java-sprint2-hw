@@ -4,14 +4,14 @@ import java.util.HashMap;
 
 public class PrintMenu {
 
-    protected static void printMenu(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths, ArrayList<YearlyConstructor> dbY) {
+    protected static void printMenu(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports, ArrayList<YearlyConstructor> dbY) {
 
         Date date = new Date();
         System.out.println("********************************************************");
         System.out.println("|                 Бухгалтерия v0.01b                   |");
         System.out.println("|           " + date + "              |");
         System.out.println("|******************************************************|");
-        if (dbReportMonths.isEmpty()) {
+        if (dbMonthReports.isEmpty()) {
             System.out.println("| 1. Считать все месячные отчёты  *(Данные не считаны)*|");
         } else {
             System.out.println("| 1. Считать все месячные отчёты                       |");
@@ -30,10 +30,8 @@ public class PrintMenu {
         System.out.print("Ввод команды: ");
     }
 
-    protected static void checkLoadMonth(boolean checkLoadM) {
-        if (!checkLoadM) {
-            System.err.println("Отсутствуют данные для обработки! Считайте месячные отчеты.");
-        }
+    protected static void checkLoadMonth() {
+        System.err.println("Отсутствуют данные для обработки! Считайте месячные отчеты.");
     }
 
     protected static void checkLoadYear(boolean checkLoadY) {
