@@ -9,7 +9,7 @@ import java.util.List;
 
 class MonthlyReport {
 
-    public String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+    public String[] months = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
 
     protected void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths) {
         //ArrayList<MonthlyConstructor> transToHash = new ArrayList<>();
@@ -65,8 +65,8 @@ class MonthlyReport {
             }
         }
 
-        System.out.printf("%1s %-7s %1s %-30s %1s %13s %1s %-34s %1s %12s %1s %n", "* ", month, " | ", getItemMaxProfit, " | ", getMaxProfit, " | ", getItemMaxLoss, " | ", getMaxLoss, " *");
-        System.out.println("----------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%1s %-7s %1s %-30s %1s %13s %1s %-34s %1s %12s %1s %n", "* ", month, " | ", getItemMaxProfit, " | ", getMaxProfit, " * ", getItemMaxLoss, " | ", getMaxLoss, " *");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------");
     }
 
     private List<String> readFileContents(String path, String[] months, int i) {

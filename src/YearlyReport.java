@@ -12,9 +12,8 @@ public class YearlyReport {
     MonthlyReport monthlyReport = new MonthlyReport();
 
     protected void loadFileMonth(HashMap<String, ArrayList<YearlyConstructor>> dbReportYear) {
-        for (var i = 1; i < 4; i++) {
+        for (var i = 1; i < 7; i++) {
             ArrayList<YearlyConstructor> transToHash = new ArrayList<>();
-            //ArrayList<String> yaers = new ArrayList<>();
             var file = "";
             file = ("resources/y.202" + i + ".csv");
             File checkFile = new File(file);
@@ -30,7 +29,6 @@ public class YearlyReport {
                 boolean isExpenseYear = Boolean.parseBoolean(parts[2]);
                 YearlyConstructor yearlyConstructor = new YearlyConstructor(monthYear, amountYear, isExpenseYear);
                 transToHash.add(yearlyConstructor);
-
             }
             String year = file.replaceAll("[^0-9]", "");
             dbReportYear.put(year, transToHash);
@@ -38,7 +36,6 @@ public class YearlyReport {
     }
 
     public void getReportYear(String year, ArrayList<YearlyConstructor> dbYear) {
-        System.out.println(year + " год.");
         int getProfitMonth = 0;
         int getLossMonth = 0;
         int profitMonth = 0;
@@ -46,42 +43,29 @@ public class YearlyReport {
         int averageLoss = 0;
         String getItemMaxProfit = null;
         String getItemMaxLoss = null;
-
-        PrintMenu.printTableYear();
+        HashMap<String, Integer> getSumMonths = new HashMap<>();
         for (YearlyConstructor report : dbYear) {
             if (!report.isExpenseYear) {
                 getProfitMonth = report.amountYear;
+                getSumMonths.put(report.monthYear, (getSumMonths.getOrDefault(report.monthYear, 0) + getProfitMonth));
+                averageProfit += getProfitMonth;
             } else {
                 getLossMonth = report.amountYear;
+                getSumMonths.put(report.monthYear, (getSumMonths.getOrDefault(report.monthYear, 0) - getLossMonth));
+                averageLoss += getLossMonth;
             }
-            /*for (int i = 0; i < dbYear.size(); i++)
-                if (!report.isExpenseYear) {
-                    getProfitMonth = report.amountYear;
-                } else {
-                    getLossMonth = report.amountYear;
-                }
-            profitMonth = getProfitMonth - getLossMonth;*/
-
-            System.out.printf("%1s %-6s %1s %9s %1s %9s %1s %9s %1s %n", "* ", report.monthYear, " | ", getProfitMonth, " | ", getLossMonth, " | ", (getProfitMonth-getLossMonth), " *");
-            System.out.println("------------------------------------------------------");
-
         }
+        PrintMenu.printTableYear(averageProfit, averageLoss, year);
 
-        /*for (MonthlyConstructor report : reportMonth) {
-            if (!report.isExpense) {
-                int currentProfit = report.quantity * report.priceOne;
-                getMaxProfitMonth += currentProfit;
+
+        for (String month : monthlyReport.months) {
+            if (getSumMonths.get(month) != null) {
+                System.out.printf("%1s %4s %2s %9s %1s %n", "* ", month, " | ", getSumMonths.get(month), " *");
+                System.out.println("------------------------");
             } else {
-                int currentProfit = report.quantity * report.priceOne;
-                getMaxLossMonth += currentProfit;
+                continue;
             }
-            profitMonth = getMaxProfitMonth - getMaxLossMonth;
-            averageProfit = (averageProfit + getMaxProfitMonth) / 12;
-            averageLoss = (averageLoss + getMaxLossMonth) / 12;
         }
-        System.out.println("Средний доход " + averageProfit);
-        System.out.println("Средний доход " + averageLoss);
-        System.out.println("Прибыль за год составила : " + profitMonth);*/
     }
 
     private List<String> readFileContents(String path) {

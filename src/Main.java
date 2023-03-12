@@ -31,7 +31,7 @@ public class Main {
                     PrintMenu.loadFiles(dbYearReports);
                 }
             } else if (userInput.equals("3")) {
-
+                System.out.println("Работает работает");
             } else if (userInput.equals("4")) {
                 if (dbMonthsReports.isEmpty()) {
                     PrintMenu.checkLoadMonth();
@@ -49,8 +49,16 @@ public class Main {
                 if (dbYearReports.isEmpty()) {
                     PrintMenu.checkLoadYear();
                 } else {
-
-                    yearlyReport.getReportYear("2021", dbYearReports.get("2021"));
+                    System.out.println("Выберите год для отчёта:");
+                    PrintMenu.loadFiles(dbYearReports);
+                    System.out.print("Ввод: ");
+                    String year = inputCommand.nextLine();
+                    if (dbYearReports.get(year) == null) {
+                        PrintMenu.errInput();
+                        continue;
+                    } else {
+                        yearlyReport.getReportYear(year, dbYearReports.get(year));
+                    }
                 }
             } else if (userInput.equals("0")) {
                 break;
