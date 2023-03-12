@@ -10,7 +10,4 @@ public class CompareReport {
     public boolean checkCompare() {
         return false;
     }
-
-
 }
-

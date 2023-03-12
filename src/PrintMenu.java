@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class PrintMenu {
 
     protected static void printMenu(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports, HashMap<String, ArrayList<YearlyConstructor>> dbYearReports) {
-
         Date date = new Date();
         System.out.println("********************************************************");
         System.out.println("|                 Бухгалтерия v0.01b                   |");
@@ -35,7 +34,7 @@ public class PrintMenu {
     }
 
     protected static void checkLoadYear() {
-        System.err.println("Отсутствуют данные для обработки! Считайте годовой отчет.");
+        System.err.println("Отсутствуют данные для обработки! Считайте годовые отчеты.");
     }
 
     protected static void printTable() {
@@ -64,7 +63,7 @@ public class PrintMenu {
     }
 
     protected static void loadFiles (HashMap db) {
-        System.out.println("Считаны отчеты за:" + db.keySet());
+        System.out.println("Доступны отчеты за:" + db.keySet());
     }
 }
 
