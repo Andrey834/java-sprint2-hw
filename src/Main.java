@@ -10,17 +10,18 @@ public class Main {
         Scanner inputCommand = new Scanner(System.in);
         MonthlyReport monthlyReport = new MonthlyReport();
         YearlyReport yearlyReport = new YearlyReport();
-        ArrayList<MonthlyConstructor> saveMonthReport = new ArrayList<>();
+        //ArrayList<MonthlyConstructor> saveMonthReport = new ArrayList<>();
+        HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths = new HashMap<>();
         ArrayList<YearlyConstructor> saveYearReport = new ArrayList<>();
         boolean checkLoadM = false;
         boolean checkLoadY = false;
 
         while (true) {
-            PrintMenu.printMenu(saveMonthReport, saveYearReport);
+            PrintMenu.printMenu(dbReportMonths, saveYearReport);
             String userInput = inputCommand.nextLine();
             if (userInput.equals("1")) {
-                monthlyReport.loadFileMonth(saveMonthReport);
-                if (!saveMonthReport.isEmpty()) {
+                monthlyReport.loadFileMonth(dbReportMonths);
+                if (dbReportMonths.isEmpty()) {
                     checkLoadM = true;
                 }
             } else if (userInput.equals("2")) {
@@ -32,6 +33,7 @@ public class Main {
 
             } else if (userInput.equals("4")) {
                 PrintMenu.checkLoadMonth(checkLoadM);
+                System.out.println(dbReportMonths.keySet());
             } else if (userInput.equals("5")) {
                 PrintMenu.checkLoadYear(checkLoadY);
             } else if (userInput.equals("0")) {

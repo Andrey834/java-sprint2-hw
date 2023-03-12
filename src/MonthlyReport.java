@@ -14,7 +14,8 @@ import java.util.List;
     //PrintMenu printMenu = new PrintMenu();
     //public ArrayList<String> checkLoadMonth = new ArrayList<>();
 
-    protected void loadFileMonth(ArrayList<MonthlyConstructor> dbReportMonth) {
+    protected void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths) {
+        ArrayList<MonthlyConstructor> transToHash = new ArrayList<>();
         for (var i = 1; i < 13; i++) {
             var file = "";
             if (i < 10) {
@@ -30,14 +31,14 @@ import java.util.List;
             for (int k = 1; k < contents.size(); k++) {
                 String line = contents.get(k);
                 String[] parts = line.split(",");
-                String month = months[i - 1];
                 String title = parts[0];
                 boolean isExpense = Boolean.parseBoolean(parts[1]);
                 int quantity = Integer.parseInt(parts[2]);
                 int priceOne = Integer.parseInt(parts[3]);
-                MonthlyConstructor monthlyConstructor = new MonthlyConstructor(month, title, isExpense, quantity, priceOne);
-                dbReportMonth.add(monthlyConstructor);
+                MonthlyConstructor monthlyConstructor = new MonthlyConstructor(title, isExpense, quantity, priceOne);
+                transToHash.add(monthlyConstructor);
             }
+            dbReportMonths.put(months[i-1],transToHash);
         }
     }
 
