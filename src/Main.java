@@ -10,39 +10,48 @@ public class Main {
         Scanner inputCommand = new Scanner(System.in);
         MonthlyReport monthlyReport = new MonthlyReport();
         YearlyReport yearlyReport = new YearlyReport();
-        //ArrayList<MonthlyConstructor> saveMonthReport = new ArrayList<>();
-        HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports = new HashMap<>();
-        ArrayList<YearlyConstructor> saveYearReport = new ArrayList<>();
-        boolean checkLoadM = false;
-        boolean checkLoadY = false;
+        HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports = new HashMap<>();
+        HashMap<String, ArrayList<YearlyConstructor>> dbYearReports = new HashMap<>();
 
         while (true) {
-            PrintMenu.printMenu(dbMonthReports, saveYearReport);
+            PrintMenu.printMenu(dbMonthsReports, dbYearReports);
             String userInput = inputCommand.nextLine();
             if (userInput.equals("1")) {
-                monthlyReport.loadFileMonth(dbMonthReports);
-                System.out.println("Считаны отчеты за:" + dbMonthReports.keySet());
-                if (!dbMonthReports.isEmpty()) {
-                    checkLoadM = true;
+                monthlyReport.loadFileMonth(dbMonthsReports);
+                if (dbMonthsReports.isEmpty()) {
+                    PrintMenu.checkFile();
+                } else {
+                    PrintMenu.loadFiles(dbMonthsReports);
                 }
             } else if (userInput.equals("2")) {
-                yearlyReport.loadFileMonth(saveYearReport);
-                if (!saveYearReport.isEmpty()) {
-                    checkLoadY = true;
+                yearlyReport.loadFileMonth(dbYearReports);
+                if (dbYearReports.isEmpty()) {
+                    PrintMenu.checkFile();
+                } else {
+                    PrintMenu.loadFiles(dbYearReports);
                 }
             } else if (userInput.equals("3")) {
 
             } else if (userInput.equals("4")) {
-                if (dbMonthReports.isEmpty()) {
-                PrintMenu.checkLoadMonth();
+                if (dbMonthsReports.isEmpty()) {
+                    PrintMenu.checkLoadMonth();
                 } else {
+                    PrintMenu.printTable();
                     for (int i = 0; i < monthlyReport.months.length; i++) {
-                        monthlyReport.getMaxValue(dbMonthReports, monthlyReport.months[i]);
+                        if (dbMonthsReports.get(monthlyReport.months[i]) != null) {
+                            monthlyReport.getValueMonths(dbMonthsReports.get(monthlyReport.months[i]), monthlyReport.months[i]);
+                        } else {
+                            continue;
+                        }
                     }
                 }
             } else if (userInput.equals("5")) {
-                PrintMenu.checkLoadYear(checkLoadY);
+                if (dbYearReports.isEmpty()) {
+                    PrintMenu.checkLoadYear();
+                } else {
 
+                    yearlyReport.getReportYear("2021", dbYearReports.get("2021"));
+                }
             } else if (userInput.equals("0")) {
                 break;
             } else {

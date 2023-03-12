@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class PrintMenu {
 
-    protected static void printMenu(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports, ArrayList<YearlyConstructor> dbY) {
+    protected static void printMenu(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports, HashMap<String, ArrayList<YearlyConstructor>> dbYearReports) {
 
         Date date = new Date();
         System.out.println("********************************************************");
@@ -16,7 +16,7 @@ public class PrintMenu {
         } else {
             System.out.println("| 1. Считать все месячные отчёты                       |");
         }
-        if (dbY.isEmpty()) {
+        if (dbYearReports.isEmpty()) {
             System.out.println("| 2. Считать годовой отчёт        *(Данные не считаны)*|");
         } else {
             System.out.println("| 2. Считать годовой отчёт                             |");
@@ -34,10 +34,28 @@ public class PrintMenu {
         System.err.println("Отсутствуют данные для обработки! Считайте месячные отчеты.");
     }
 
-    protected static void checkLoadYear(boolean checkLoadY) {
-        if (!checkLoadY) {
-            System.err.println("Отсутствуют данные для обработки! Считайте годовой отчет.");
-        }
+    protected static void checkLoadYear() {
+        System.err.println("Отсутствуют данные для обработки! Считайте годовой отчет.");
+    }
+
+    protected static void printTable() {
+        System.out.println("============================================================================================================================");
+        System.out.printf("%1s %-7s %1s %-30s %1s %13s %1s %-34s %1s %12s %1s %n", "* ", "Месяц", " | ", "Самый прибыльный товар:", " | ", "Сумма прибыли", " | ", "Самая большая трата:", " | ", "Сумма траты", " *");
+        System.out.println("============================================================================================================================");
+    }
+
+    protected static void printTableYear() {
+        System.out.println("=======================================================");
+        System.out.printf("%1s %-6s %1s %9s %1s %9s %1s %9s %1s %n", "* ", "Месяц", " | ", "Доход", " | ", "Расход", " | ", "Прибыль", " *");
+        System.out.println("=======================================================");
+    }
+
+    protected static void checkFile() {
+        System.out.println("В директории отсутствуют файлы для считывания");
+    }
+
+    protected static void loadFiles (HashMap db) {
+        System.out.println("Считаны отчеты за:" + db.keySet());
     }
 }
 

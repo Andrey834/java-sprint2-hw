@@ -11,7 +11,7 @@ class MonthlyReport {
 
     public String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
 
-    protected void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports) {
+    protected void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths) {
         //ArrayList<MonthlyConstructor> transToHash = new ArrayList<>();
         for (var i = 1; i < 13; i++) {
             ArrayList<MonthlyConstructor> transToHash = new ArrayList<>();
@@ -36,61 +36,37 @@ class MonthlyReport {
                 MonthlyConstructor monthlyConstructor = new MonthlyConstructor(title, isExpense, quantity, priceOne);
                 transToHash.add(monthlyConstructor);
             }
-            dbMonthReports.put(months[i - 1], transToHash);
+            dbReportMonths.put(months[i - 1], transToHash);
         }
     }
 
-    public void getMaxValue(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports, String month) {
-        int maxSumProfit = 0;
-        String getItemMax = null;
-        int maxSumLoss = 0;
+    public void getValueMonths(ArrayList<MonthlyConstructor> report, String month) {
+        int getMaxProfit = 0;
+        int getMaxLoss = 0;
+        String getItemMaxProfit = null;
         String getItemMaxLoss = null;
 
-        for (MonthlyConstructor monthlyConstructor : dbMonthReports.get(month)) {
+        for (MonthlyConstructor monthlyConstructor : report) {
             if (!monthlyConstructor.isExpense) {
                 int currentProfit = monthlyConstructor.quantity * monthlyConstructor.priceOne;
-                if (maxSumProfit < currentProfit) {
-                    getItemMax = monthlyConstructor.title;
-                    maxSumProfit = currentProfit;
+                if (getMaxProfit < currentProfit) {
+                    getItemMaxProfit = monthlyConstructor.title;
+                    getMaxProfit = currentProfit;
                 }
             }
         }
-        for (MonthlyConstructor monthlyConstructor : dbMonthReports.get(month)) {
+        for (MonthlyConstructor monthlyConstructor : report) {
             if (monthlyConstructor.isExpense) {
                 int currentProfit = monthlyConstructor.quantity * monthlyConstructor.priceOne;
-                if (maxSumLoss < currentProfit) {
+                if (getMaxLoss < currentProfit) {
                     getItemMaxLoss = monthlyConstructor.title;
-                    maxSumLoss = currentProfit;
+                    getMaxLoss = currentProfit;
                 }
             }
         }
-        System.out.println("===========================");
-        System.out.println(month);
-        System.out.println("===========================");
-        System.out.println("Самый прибыльный товар:");
-        System.out.println(getItemMax);
-        System.out.println(maxSumProfit);
-        System.out.println("---------------------------");
-        System.out.println("Самая большая трата:");
-        System.out.println(getItemMaxLoss);
-        System.out.println(maxSumLoss);
-    }
 
-    public void getMaxProfitM(ArrayList<MonthlyConstructor> dbReportMonth) {
-        HashMap<String, Integer> summary = new HashMap<>();
-        for (MonthlyConstructor monthlyConstructor : dbReportMonth) {
-            summary.put(monthlyConstructor.title, summary.getOrDefault(monthlyConstructor.title, 0) + (monthlyConstructor.quantity * monthlyConstructor.priceOne));
-        }
-        String maxTitle = null;
-        for (String title : summary.keySet()) {
-            if (maxTitle == null) {
-                maxTitle = title;
-                continue;
-            }
-            if (summary.get(maxTitle) < summary.get(title)) {
-                maxTitle = title;
-            }
-        }
+        System.out.printf("%1s %-7s %1s %-30s %1s %13s %1s %-34s %1s %12s %1s %n", "* ", month, " | ", getItemMaxProfit, " | ", getMaxProfit, " | ", getItemMaxLoss, " | ", getMaxLoss, " *");
+        System.out.println("----------------------------------------------------------------------------------------------------------------------------");
     }
 
     private List<String> readFileContents(String path, String[] months, int i) {
