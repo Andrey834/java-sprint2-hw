@@ -1,63 +1,45 @@
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
-
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        Scanner inputCommand = new Scanner(System.in);
+    public static void main(String[] args) {
 
+        Scanner inputCommand = new Scanner(System.in);
+        MonthlyReport monthlyReport = new MonthlyReport();
+        YearlyReport yearlyReport = new YearlyReport();
+        ArrayList<MonthlyConstructor> saveMonthReport = new ArrayList<>();
+        ArrayList<YearlyConstructor> saveYearReport = new ArrayList<>();
+        boolean checkLoadM = false;
+        boolean checkLoadY = false;
 
         while (true) {
-            printMenu();
-            int userInput = inputCommand.nextInt();
-            MonthlyReport monthlyReport = new MonthlyReport();//MonthlyReport monthlyReport = new MonthlyReport();
-
-
-            if (userInput == 1) {
-                //monthlyReport.loadFileMonth();
-                //System.out.println(monthlyReport.getMaxProfitM(monthlyReport.loadFileMonth()));
-                //monthlyReport.loadFileMonth().size();
-                System.out.println(monthlyReport.loadFileMonth().get(0));
-
-                for (MonthlyConstructor monthlyConstructor : monthlyReport.dbReportMonth) {
-                    System.out.printf("%-10s %-40s %-20s %-20s %s %n", monthlyConstructor.month,  monthlyConstructor.title, monthlyConstructor.isExpense, monthlyConstructor.quantity, monthlyConstructor.priceOne);
-
+            PrintMenu.printMenu(saveMonthReport, saveYearReport);
+            String userInput = inputCommand.nextLine();
+            if (userInput.equals("1")) {
+                monthlyReport.loadFileMonth(saveMonthReport);
+                if (!saveMonthReport.isEmpty()) {
+                    checkLoadM = true;
                 }
-            } else if (userInput == 2) {
-                //read.loadFileYear();
-            } else if (userInput == 3) {
+            } else if (userInput.equals("2")) {
+                yearlyReport.loadFileMonth(saveYearReport);
+                if (!saveYearReport.isEmpty()) {
+                    checkLoadY = true;
+                }
+            } else if (userInput.equals("3")) {
 
-
-            } else if (userInput == 4) {
-
-            } else if (userInput == 5) {
-
-            } else if (userInput == 6) {
+            } else if (userInput.equals("4")) {
+                PrintMenu.checkLoadMonth(checkLoadM);
+            } else if (userInput.equals("5")) {
+                PrintMenu.checkLoadYear(checkLoadY);
+            } else if (userInput.equals("0")) {
                 break;
             } else {
                 System.out.println("Ошибка! Такой команды нет!");
             }
         }
-    }
-
-    static void printMenu() {
-        Date date = new Date();
-
-        System.out.println("*************************************************");
-        System.out.println("|              Бухгалтерия v0.01b               |");
-        System.out.println("|        " + date + "          |");
-        System.out.println("|***********************************************|");
-        System.out.println("| 1. Считать все месячные отчёты                |");
-        System.out.println("| 2. Считать годовой отчёт                      |");
-        System.out.println("| 3. Сверить отчёты                             |");
-        System.out.println("| 4. Вывести информацию о всех месячных отчётах |");
-        System.out.println("| 5. Вывести информацию о годовом отчёте        |");
-        System.out.println("|===============================================|");
-        System.out.println("| 0. Выход                                      |");
-        System.out.println("+================================================");
-        System.out.print("Ввод команды: ");
     }
 }
 

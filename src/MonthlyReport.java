@@ -7,12 +7,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class MonthlyReport {
-    public String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
-    public ArrayList<MonthlyConstructor> dbReportMonth = new ArrayList<>();
-    //public ArrayList<YearlyConstructor> dataBaseYearSave = new ArrayList<>();
+ class MonthlyReport {
 
-    public ArrayList loadFileMonth() {
+     private final String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
+    //public ArrayList<MonthlyConstructor> dbReportMonth = new ArrayList<>();
+    //PrintMenu printMenu = new PrintMenu();
+    //public ArrayList<String> checkLoadMonth = new ArrayList<>();
+
+    protected void loadFileMonth(ArrayList<MonthlyConstructor> dbReportMonth) {
         for (var i = 1; i < 13; i++) {
             var file = "";
             if (i < 10) {
@@ -20,11 +22,11 @@ public class MonthlyReport {
             } else {
                 file = ("resources/m.2021" + i + ".csv");
             }
-            List<String> contents = readFileContents(file, months, i - 1);
-            File f = new File(file);
-            if (!f.exists() && !f.isDirectory()) {
+            File checkFile = new File(file);
+            if (!checkFile.exists() && !checkFile.isDirectory()) {
                 continue;
             }
+            List<String> contents = readFileContents(file, months, i - 1);
             for (int k = 1; k < contents.size(); k++) {
                 String line = contents.get(k);
                 String[] parts = line.split(",");
@@ -37,10 +39,9 @@ public class MonthlyReport {
                 dbReportMonth.add(monthlyConstructor);
             }
         }
-        return dbReportMonth;
     }
 
-    public String getMaxProfitM(ArrayList<MonthlyConstructor> dbReportMonth) {
+    public void getMaxProfitM(ArrayList<MonthlyConstructor> dbReportMonth) {
         HashMap<String, Integer> summary = new HashMap<>();
         for (MonthlyConstructor monthlyConstructor : dbReportMonth) {
             summary.put(monthlyConstructor.title, summary.getOrDefault(monthlyConstructor.title, 0) + (monthlyConstructor.quantity * monthlyConstructor.priceOne));
@@ -55,14 +56,13 @@ public class MonthlyReport {
                 maxTitle = title;
             }
         }
-        return maxTitle;
     }
 
-    public List<String> readFileContents(String path, String[] months, int i) {
+    private List<String> readFileContents(String path, String[] months, int i) {
         try {
             return Files.readAllLines(Path.of(path));
         } catch (IOException e) {
-            System.out.println("Невозможно прочитать файл с месячным отчётом за *" + months[i] + "*. Возможно файл не находится в нужной директории.");
+            System.out.println("Невозможно прочитать файл с месячным отчётом за *" + months[i] + "*. Возможно файл поврежден или не соответсвует формату.");
             return Collections.emptyList();
         }
     }
