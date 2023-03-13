@@ -2,9 +2,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class YearlyReport {
-    MonthlyReport monthlyReport = new MonthlyReport();
 
-    public void getReportYear(String year, ArrayList<YearlyConstructor> dbYear) {
+    public void getReportYear(String year, ArrayList<YearlyConstructor> dbYear, String[] months) {
         int averageProfit = 0;
         int averageLoss = 0;
         HashMap<String, Integer> getSumMonths = new HashMap<>();
@@ -20,14 +19,14 @@ public class YearlyReport {
                 averageLoss += getLossMonth;
             }
         }
+        averageProfit /= 12;
+        averageLoss /= 12;
 
         PrintMenu.printTableYear(averageProfit, averageLoss, year);
-        for (String month : monthlyReport.months) {
+        for (String month : months) {
             if (getSumMonths.get(month) != null) {
-                System.out.printf("%1s %4s %2s %9s %1s %n", "* ", month, " | ", getSumMonths.get(month), " *");
+                System.out.printf("%1s %-7s %2s %9s %1s %n", "*", month, "|", getSumMonths.get(month), "*");
                 System.out.println("------------------------");
-            } else {
-                continue;
             }
         }
     }

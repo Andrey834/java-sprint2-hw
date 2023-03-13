@@ -8,9 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 
 class LoadReport {
+    public String year = "";
 
     protected void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths, String[] months) {
         for (int i = 1; i < 13; i++) {
+            ArrayList<MonthlyConstructor> transToHashM = new ArrayList<>();
             String fileM = "";
             if (i < 10) {
                 fileM = ("resources/m.20210" + i + ".csv");
@@ -20,20 +22,20 @@ class LoadReport {
             File checkFile = new File(fileM);
             if (!checkFile.exists() && !checkFile.isDirectory()) {
                 continue;
+            } else {
+                List<String> contents = readFileContents(fileM);
+                for (int k = 1; k < contents.size(); k++) {
+                    String line = contents.get(k);
+                    String[] parts = line.split(",");
+                    String title = parts[0];
+                    boolean isExpense = Boolean.parseBoolean(parts[1]);
+                    int quantity = Integer.parseInt(parts[2]);
+                    int priceOne = Integer.parseInt(parts[3]);
+                    MonthlyConstructor monthlyConstructor = new MonthlyConstructor(title, isExpense, quantity, priceOne);
+                    transToHashM.add(monthlyConstructor);
+                }
             }
-            List<String> contents = readFileContents(fileM);
-            ArrayList<MonthlyConstructor> transToHashM = new ArrayList<>();
-            for (int k = 1; k < contents.size(); k++) {
-                String line = contents.get(k);
-                String[] parts = line.split(",");
-                String title = parts[0];
-                boolean isExpense = Boolean.parseBoolean(parts[1]);
-                int quantity = Integer.parseInt(parts[2]);
-                int priceOne = Integer.parseInt(parts[3]);
-                MonthlyConstructor monthlyConstructor = new MonthlyConstructor(title, isExpense, quantity, priceOne);
-                transToHashM.add(monthlyConstructor);
-            }
-            dbReportMonths.put(months[i-1], transToHashM);
+            dbReportMonths.put(months[i - 1], transToHashM);
         }
     }
 
@@ -45,18 +47,19 @@ class LoadReport {
             File checkFile = new File(fileY);
             if (!checkFile.exists() && !checkFile.isDirectory()) {
                 continue;
+            } else {
+                List<String> contents = readFileContents(fileY);
+                for (int k = 1; k < contents.size(); k++) {
+                    String line = contents.get(k);
+                    String[] parts = line.split(",");
+                    String monthYear = parts[0];
+                    int amountYear = Integer.parseInt(parts[1]);
+                    boolean isExpenseYear = Boolean.parseBoolean(parts[2]);
+                    YearlyConstructor yearlyConstructor = new YearlyConstructor(monthYear, amountYear, isExpenseYear);
+                    transToHashY.add(yearlyConstructor);
+                }
             }
-            List<String> contents = readFileContents(fileY);
-            for (int k = 1; k < contents.size(); k++) {
-                String line = contents.get(k);
-                String[] parts = line.split(",");
-                String monthYear = parts[0];
-                int amountYear = Integer.parseInt(parts[1]);
-                boolean isExpenseYear = Boolean.parseBoolean(parts[2]);
-                YearlyConstructor yearlyConstructor = new YearlyConstructor(monthYear, amountYear, isExpenseYear);
-                transToHashY.add(yearlyConstructor);
-            }
-            String year = fileY.replaceAll("[^0-9]", "");
+            year = fileY.replaceAll("[^0-9]", "");
             dbReportYear.put(year, transToHashY);
         }
     }

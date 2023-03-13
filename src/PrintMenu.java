@@ -7,7 +7,7 @@ public class PrintMenu {
     protected static void printMenu(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthReports, HashMap<String, ArrayList<YearlyConstructor>> dbYearReports) {
         Date date = new Date();
         System.out.println("********************************************************");
-        System.out.println("|                 Бухгалтерия v0.01b                   |");
+        System.out.println("|               java-sprint2-hw v0.01b                 |");
         System.out.println("|           " + date + "              |");
         System.out.println("|******************************************************|");
         if (dbMonthReports.isEmpty()) {
@@ -47,10 +47,10 @@ public class PrintMenu {
         System.out.println("====================================================");
         System.out.printf("%-1s %s %s %s %32s %n", "*", "Отчет за", year, "год", "*");
         System.out.println("----------------------------------------------------");
-        System.out.printf("%-1s %-37s %10s %1s %n", "*", "Средний доход за все месяцы в году:", (profit/12), "*");
-        System.out.printf("%-1s %-37s %10s %1s %n", "*", "Средний расход за все месяцы в году:", (loss/12), "*");
+        System.out.printf("%-1s %-37s %10s %1s %n", "*", "Средний доход за все месяцы в году:", profit, "*");
+        System.out.printf("%-1s %-37s %10s %1s %n", "*", "Средний расход за все месяцы в году:", loss, "*");
         System.out.println("====================================================");
-        System.out.printf("%1s %-6s %1s %8s %4s %n", "*", "Месяц", "|", "Прибыль", "*");
+        System.out.printf("%1s %7s %2s %9s %1s %n", "*", "Месяц", "|", "Прибыль", "*");
         System.out.println("========================");
     }
 
@@ -60,6 +60,12 @@ public class PrintMenu {
 
     protected static void errInput() {
         System.out.println("Указанный год отсутствует в базе!");
+    }
+
+    protected static void chooseReportYear (HashMap db) {
+        System.out.println("Выберите год для отчёта:");
+        System.out.println("Доступны годовые отчеты за:" + db.keySet());
+        System.out.print("Ввод: ");
     }
 
     protected static void loadFiles (HashMap db) {
