@@ -52,13 +52,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\resources\m.202107.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\resources\y.2021.csv">
           <value>
             <Attribute>

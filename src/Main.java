@@ -36,12 +36,13 @@ public class Main {
                 if (dbYearReports.isEmpty()) {
                     PrintMenu.checkLoadYear();
                 } else if (dbYearReports.size() == 1) {
+                    boolean compare = false;
                     for (String month : months) {
                         if (dbMonthsReports.get(month) != null) {
-                            Compare.getCompareReport(dbMonthsReports.get(month), dbYearReports.get(loadReport.year), month);
-                        } else {
-                            break;
+                           compare = Compare.getCompareReport(dbMonthsReports.get(month), dbYearReports.get(loadReport.year), month, compare);
                         }
+
+                        System.out.println("Сверка отчетов завершилась. Несоответствий не обнаружено");
                     }
                 } else {
                     PrintMenu.chooseReportYear(dbYearReports);

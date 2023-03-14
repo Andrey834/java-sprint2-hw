@@ -3,7 +3,22 @@ import java.util.HashMap;
 
 public class Compare {
 
-    public static void getCompareReport(ArrayList<MonthlyConstructor> monthReport, ArrayList<YearlyConstructor> dbYear, String month) {
+    LoadReport loadReport = new LoadReport();
+    public void comTest(String[] months, HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports, ArrayList<YearlyConstructor> dbYear) {
+        for (String month : months) {
+            if (dbMonthsReports.get(month) != null) {
+                 getCompareReport(dbMonthsReports.get(month), dbYear.get(loadReport.year), month);
+            }
+
+            System.out.println("Сверка отчетов завершилась. Несоответствий не обнаружено");
+        }
+    }
+
+
+
+
+
+    public static boolean getCompareReport(ArrayList<MonthlyConstructor> monthReport, ArrayList<YearlyConstructor> dbYear, String month, boolean compare) {
         int getSumProfit = 0;
         int getSumLoss = 0;
         int currentProfit = 0;
@@ -28,10 +43,9 @@ public class Compare {
         }
 
         if (getSumProfit != currentProfit && getSumLoss != currentloss) {
-            System.out.println("Обнаружено несоответствие отчета за " + month + " месяц.");
-        } else {
-            System.out.println("Сверка отчетов завершилась. Несоответствий не обнаружено");
+            compare = true;
         }
+        return compare;
     }
 }
 
