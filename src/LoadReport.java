@@ -41,26 +41,28 @@ class LoadReport {
 
     protected void loadFileYears(HashMap<String, ArrayList<YearlyConstructor>> dbReportYear) {
         for (int i = 1; i < 8; i++) {
-            ArrayList<YearlyConstructor> transToHashY = new ArrayList<>();
-            String fileY = "";
-            fileY = ("resources/y.202" + i + ".csv");
-            File checkFile = new File(fileY);
-            if (!checkFile.exists() && !checkFile.isDirectory()) {
-                continue;
-            } else {
-                List<String> contents = readFileContents(fileY);
-                for (int k = 1; k < contents.size(); k++) {
-                    String line = contents.get(k);
-                    String[] parts = line.split(",");
-                    String monthYear = parts[0];
-                    int amountYear = Integer.parseInt(parts[1]);
-                    boolean isExpenseYear = Boolean.parseBoolean(parts[2]);
-                    YearlyConstructor yearlyConstructor = new YearlyConstructor(monthYear, amountYear, isExpenseYear);
-                    transToHashY.add(yearlyConstructor);
+            if (dbReportYear.isEmpty()) {
+                ArrayList<YearlyConstructor> transToHashY = new ArrayList<>();
+                String fileY = "";
+                fileY = ("resources/y.202" + i + ".csv");
+                File checkFile = new File(fileY);
+                if (!checkFile.exists() && !checkFile.isDirectory()) {
+                    continue;
+                } else {
+                    List<String> contents = readFileContents(fileY);
+                    for (int k = 1; k < contents.size(); k++) {
+                        String line = contents.get(k);
+                        String[] parts = line.split(",");
+                        String monthYear = parts[0];
+                        int amountYear = Integer.parseInt(parts[1]);
+                        boolean isExpenseYear = Boolean.parseBoolean(parts[2]);
+                        YearlyConstructor yearlyConstructor = new YearlyConstructor(monthYear, amountYear, isExpenseYear);
+                        transToHashY.add(yearlyConstructor);
+                    }
                 }
+                year = fileY.replaceAll("[^0-9]", "");
+                dbReportYear.put(year, transToHashY);
             }
-            year = fileY.replaceAll("[^0-9]", "");
-            dbReportYear.put(year, transToHashY);
         }
     }
 

@@ -10,10 +10,9 @@ public class Main {
         MonthlyReport monthlyReport = new MonthlyReport();
         YearlyReport yearlyReport = new YearlyReport();
         LoadReport loadReport = new LoadReport();
+        CompareReport compareReport = new CompareReport();
         HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports = new HashMap<>();
         HashMap<String, ArrayList<YearlyConstructor>> dbYearReports = new HashMap<>();
-        boolean checkReport = false;
-        String errorMonth = null;
 
         while (true) {
             PrintMenu.printMenu(dbMonthsReports, dbYearReports);
@@ -33,25 +32,15 @@ public class Main {
                     PrintMenu.loadFiles(dbYearReports);
                 }
             } else if (userInput.equals("3")) { //Сверить отчёты
-                if (dbYearReports.isEmpty()) {
-                    PrintMenu.checkLoadYear();
-                } else if (dbYearReports.size() == 1) {
-                    boolean compare = false;
-                    for (String month : months) {
-                        if (dbMonthsReports.get(month) != null) {
-                           compare = Compare.getCompareReport(dbMonthsReports.get(month), dbYearReports.get(loadReport.year), month, compare);
-                        }
-
-                        System.out.println("Сверка отчетов завершилась. Несоответствий не обнаружено");
-                    }
+                if (!dbMonthsReports.isEmpty() && !dbYearReports.isEmpty()) {
+                    String year = loadReport.year;
+                    compareReport.compare(dbYearReports, dbMonthsReports, months, year);
                 } else {
-                    PrintMenu.chooseReportYear(dbYearReports);
-                    String year = inputCommand.nextLine();
-                    if (dbYearReports.get(year) == null) {
-                        PrintMenu.errInput();
-                    } else {
-                        yearlyReport.getReportYear(year, dbYearReports.get(year), months);
-
+                    if (dbMonthsReports.isEmpty()) {
+                        PrintMenu.checkLoadMonth();
+                    }
+                    if (dbYearReports.isEmpty()) {
+                        PrintMenu.checkLoadYear();
                     }
                 }
             } else if (userInput.equals("4")) { //Вывести информацию о всех месячных отчётах
@@ -68,16 +57,8 @@ public class Main {
             } else if (userInput.equals("5")) { //Вывести информацию о годовом отчёте
                 if (dbYearReports.isEmpty()) {
                     PrintMenu.checkLoadYear();
-                } else if (dbYearReports.size() == 1) {
-                    yearlyReport.getReportYear(loadReport.year, dbYearReports.get(loadReport.year), months);
                 } else {
-                    PrintMenu.chooseReportYear(dbYearReports);
-                    String year = inputCommand.nextLine();
-                    if (dbYearReports.get(year) == null) {
-                        PrintMenu.errInput();
-                    } else {
-                        yearlyReport.getReportYear(year, dbYearReports.get(year), months);
-                    }
+                    yearlyReport.getReportYear(loadReport.year, dbYearReports.get(loadReport.year), months, dbMonthsReports);
                 }
             } else if (userInput.equals("0")) { //Выход
                 break;

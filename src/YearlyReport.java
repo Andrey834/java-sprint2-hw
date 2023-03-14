@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class YearlyReport {
 
-    public void getReportYear(String year, ArrayList<YearlyConstructor> dbYear, String[] months) {
+    public void getReportYear(String year, ArrayList<YearlyConstructor> dbYear, String[] months,  HashMap<String, ArrayList<MonthlyConstructor>> dbMonths) {
         int averageProfit = 0;
         int averageLoss = 0;
         HashMap<String, Integer> getSumMonths = new HashMap<>();
@@ -19,8 +19,8 @@ public class YearlyReport {
                 averageLoss += getLossMonth;
             }
         }
-        averageProfit /= 12;
-        averageLoss /= 12;
+        averageProfit /= dbMonths.size();
+        averageLoss /= dbMonths.size();
 
         PrintMenu.printTableYear(averageProfit, averageLoss, year);
         for (String month : months) {

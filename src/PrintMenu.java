@@ -30,11 +30,11 @@ public class PrintMenu {
     }
 
     protected static void checkLoadMonth() {
-        System.err.println("Отсутствуют данные для обработки! Считайте месячные отчеты.");
+        System.out.println("Отсутствуют данные для обработки! Считайте месячные отчеты.");
     }
 
     protected static void checkLoadYear() {
-        System.err.println("Отсутствуют данные для обработки! Считайте годовые отчеты.");
+        System.out.println("Отсутствуют данные для обработки! Считайте годовой отчет.");
     }
 
     protected static void printTable() {
@@ -50,22 +50,15 @@ public class PrintMenu {
         System.out.printf("%-1s %-37s %10s %1s %n", "*", "Средний доход за все месяцы в году:", profit, "*");
         System.out.printf("%-1s %-37s %10s %1s %n", "*", "Средний расход за все месяцы в году:", loss, "*");
         System.out.println("====================================================");
-        System.out.printf("%1s %7s %2s %9s %1s %n", "*", "Месяц", "|", "Прибыль", "*");
+        System.out.printf("%1s %-7s %2s %9s %1s %n", "*", "Месяц", "|", "Прибыль", "*");
         System.out.println("========================");
     }
 
     protected static void checkFile() {
-        System.out.println("В директории отсутствуют файлы для считывания");
-    }
-
-    protected static void errInput() {
-        System.out.println("Указанный год отсутствует в базе!");
-    }
-
-    protected static void chooseReportYear (HashMap db) {
-        System.out.println("Выберите год для отчёта:");
-        System.out.println("Доступны годовые отчеты за:" + db.keySet());
-        System.out.print("Ввод: ");
+        System.out.println("Не удалось загрузить отчеты!");
+        System.out.println("Возможные причины:");
+        System.out.println("Отсутствуют файлы для считывания.");
+        System.out.println("Не поддерживается данный формат файлов.");
     }
 
     protected static void loadFiles (HashMap db) {

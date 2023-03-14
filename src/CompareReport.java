@@ -2,44 +2,52 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CompareReport {
-    HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports;
-    HashMap<String, ArrayList<YearlyConstructor>> dbYearReports;
+    public void compare(HashMap<String, ArrayList<YearlyConstructor>> dbYear, HashMap<String, ArrayList<MonthlyConstructor>> dbMonths, String[] months, String year) {
+        LoadReport loadReport = new LoadReport();
+        ArrayList<String> arrayMonth = new ArrayList<>();
 
-    protected static void getComapre(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports, HashMap<String, ArrayList<YearlyConstructor>> dbYearReports, String[] months, String year) {
-        int getLossMonthYear = 0;
-        int getProfitMonthYear = 0;
-        boolean check = false;
+        for (String month : months) {
+            int difMonth = 0;
+            int difMonthYear = 0;
 
-        if (dbYearReports.get(year) != null) {
-            for (YearlyConstructor yearlyConstructor : dbYearReports.get(year)) {
-                if (yearlyConstructor.isExpenseYear) {
-                    getLossMonthYear = yearlyConstructor.amountYear;
+            if (dbMonths.get(month) != null) {
+                int monthProfit = 0;
+                int monthloss = 0;
+                for (MonthlyConstructor monthlyConstructor : dbMonths.get(month)) {
+                    if (!monthlyConstructor.isExpense) {
+                        monthProfit += monthlyConstructor.quantity * monthlyConstructor.priceOne;
+                    } else {
+                        monthloss += monthlyConstructor.quantity * monthlyConstructor.priceOne;
+                    }
                 }
-                if (!yearlyConstructor.isExpenseYear) {
-                    getProfitMonthYear = yearlyConstructor.amountYear;
-                }
-                int currentLoss = 0;
-                int currentProfit = 0;
-                if (dbMonthsReports.get(yearlyConstructor.monthYear) != null) {
-                    for (MonthlyConstructor monthlyConstructor : dbMonthsReports.get(yearlyConstructor.monthYear)) {
-                        if (monthlyConstructor.isExpense) {
-                            currentLoss = currentLoss + (monthlyConstructor.quantity * monthlyConstructor.priceOne);
-                        }
-                        if (!monthlyConstructor.isExpense) {
-                            currentProfit = currentProfit + (monthlyConstructor.quantity * monthlyConstructor.priceOne);
+                difMonth = monthProfit - monthloss;
+            }
+            if (dbYear.get(year) != null) {
+                int monthYearProfit = 0;
+                int monthYearLoss = 0;
+                for (YearlyConstructor yearlyConstructor : dbYear.get(year)) {
+                    if (yearlyConstructor.monthYear.equals(month)) {
+                        if (!yearlyConstructor.isExpenseYear) {
+                            monthYearProfit = yearlyConstructor.amountYear;
+                        } else {
+                            monthYearLoss = yearlyConstructor.amountYear;
                         }
                     }
                 }
-                if (currentLoss != getLossMonthYear & currentProfit != getProfitMonthYear) {
-                    check = true;
-                }
-                getLossMonthYear = 0;
-                getProfitMonthYear = 0;
+                difMonthYear = monthYearProfit - monthYearLoss;
+            }
+            if (difMonth != difMonthYear) {
+                arrayMonth.add(month);
             }
         }
-        if (check == false) {
-            System.out.println("Сверка отчетов завершилась успешно. Несоответствий не обнаружено.");
+        if (arrayMonth.isEmpty()) {
+            System.out.println("Сверка отчетов завершена успешно! Несоответствий не обнаружено.");
+        } else {
+            for (String s : arrayMonth) {
+                System.out.println("Обнаружено несоответствие в месяце под № " + s);
+            }
         }
     }
 }
+
 
