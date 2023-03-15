@@ -12,7 +12,7 @@ class LoadReport {
     protected static void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths) {
         for (int i = 1; i < 13; i++) {
             ArrayList<MonthlyConstructor> transToHashM = new ArrayList<>();
-            String fileM = "";
+            String fileM;
             if (i < 10) {
                 fileM = ("resources/m.20210" + i + ".csv");
             } else {
