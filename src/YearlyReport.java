@@ -3,31 +3,29 @@ import java.util.HashMap;
 
 public class YearlyReport {
 
-    public static void getReportYear(String year, ArrayList<YearlyConstructor> dbYear, HashMap<String, ArrayList<MonthlyConstructor>> dbMonths) {
+    public static void getReportYear(HashMap<String, ArrayList<YearlyConstructor>> dbYear) {
         int averageProfit = 0;
         int averageLoss = 0;
         int currentAverageP = 0;
         int currentAverageL = 0;
+        String year = "";
         HashMap<String, Integer> getSumMonths = new HashMap<>();
 
-        for (YearlyConstructor report : dbYear) {
-            if (!report.isExpenseYear) {
-                int getProfitMonth = report.amountYear;
-                getSumMonths.put(report.monthYear, (getSumMonths.getOrDefault(report.monthYear, 0) + getProfitMonth));
-                currentAverageP += getProfitMonth;
-            } else {
-                int getLossMonth = report.amountYear;
-                getSumMonths.put(report.monthYear, (getSumMonths.getOrDefault(report.monthYear, 0) - getLossMonth));
-                currentAverageL += getLossMonth;
+        for (String yearReport : dbYear.keySet()) {
+            year = yearReport;
+            for (YearlyConstructor report : dbYear.get(yearReport)) {
+                if (!report.isExpenseYear) {
+                    int getProfitMonth = report.amountYear;
+                    getSumMonths.put(report.monthYear, (getSumMonths.getOrDefault(report.monthYear, 0) + getProfitMonth));
+                    currentAverageP += getProfitMonth;
+                } else {
+                    int getLossMonth = report.amountYear;
+                    getSumMonths.put(report.monthYear, (getSumMonths.getOrDefault(report.monthYear, 0) - getLossMonth));
+                    currentAverageL += getLossMonth;
+                }
             }
-        }
-
-        if (!dbMonths.isEmpty()) {
-            averageProfit = currentAverageP / dbMonths.size();
-            averageLoss = currentAverageL / dbMonths.size();
-        } else { //если не загрузить месячные отчеты = краш
-            averageProfit = currentAverageP / Months.months.length;
-            averageLoss = currentAverageL / Months.months.length;
+            averageProfit = currentAverageP / 12;
+            averageLoss = currentAverageL / 12;
         }
 
         PrintMenu.printTableYear(averageProfit, averageLoss, year);

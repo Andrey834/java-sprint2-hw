@@ -4,7 +4,7 @@ import java.util.HashMap;
 class MonthlyReport {
 
     public static void getValueMonths(HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports) {
-
+        PrintMenu.printTable();
         for (String month : Months.months) {
             int getMaxProfit = 0;
             int getMaxLoss = 0;

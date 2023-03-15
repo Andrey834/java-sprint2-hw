@@ -58,7 +58,6 @@ class LoadReport {
                         transToHashY.add(yearlyConstructor);
                     }
                 }
-                //String reportYear = fileY.replaceAll("[^0-9]", "");
                 dbReportYear.put(fileY.replaceAll("[^0-9]", ""), transToHashY);
             }
         }
