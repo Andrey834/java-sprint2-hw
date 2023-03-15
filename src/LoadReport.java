@@ -8,9 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 class LoadReport {
-    public String year = "";
 
-    protected void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths, String[] months) {
+    protected static void loadFileMonth(HashMap<String, ArrayList<MonthlyConstructor>> dbReportMonths) {
         for (int i = 1; i < 13; i++) {
             ArrayList<MonthlyConstructor> transToHashM = new ArrayList<>();
             String fileM = "";
@@ -35,16 +34,15 @@ class LoadReport {
                     transToHashM.add(monthlyConstructor);
                 }
             }
-            dbReportMonths.put(months[i - 1], transToHashM);
+            dbReportMonths.put(Months.months[i - 1], transToHashM);
         }
     }
 
-    protected void loadFileYears(HashMap<String, ArrayList<YearlyConstructor>> dbReportYear) {
+    protected static void loadFileYears(HashMap<String, ArrayList<YearlyConstructor>> dbReportYear) {
         for (int i = 1; i < 8; i++) {
             if (dbReportYear.isEmpty()) {
                 ArrayList<YearlyConstructor> transToHashY = new ArrayList<>();
-                String fileY = "";
-                fileY = ("resources/y.202" + i + ".csv");
+                String fileY = ("resources/y.202" + i + ".csv");
                 File checkFile = new File(fileY);
                 if (!checkFile.exists() && !checkFile.isDirectory()) {
                     continue;
@@ -60,13 +58,13 @@ class LoadReport {
                         transToHashY.add(yearlyConstructor);
                     }
                 }
-                year = fileY.replaceAll("[^0-9]", "");
-                dbReportYear.put(year, transToHashY);
+                //String reportYear = fileY.replaceAll("[^0-9]", "");
+                dbReportYear.put(fileY.replaceAll("[^0-9]", ""), transToHashY);
             }
         }
     }
 
-    private List<String> readFileContents(String path) {
+    private static List<String> readFileContents(String path) {
         try {
             return Files.readAllLines(Path.of(path));
         } catch (IOException e) {
@@ -74,4 +72,3 @@ class LoadReport {
         }
     }
 }
-

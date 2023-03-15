@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CompareReport {
-    public void compare(HashMap<String, ArrayList<YearlyConstructor>> dbYear, HashMap<String, ArrayList<MonthlyConstructor>> dbMonths, String[] months, String year) {
-        LoadReport loadReport = new LoadReport();
+
+    public static void compare(HashMap<String, ArrayList<YearlyConstructor>> dbYear, HashMap<String, ArrayList<MonthlyConstructor>> dbMonths, String year) {
         ArrayList<String> arrayMonth = new ArrayList<>();
 
-        for (String month : months) {
+        for (String month : Months.months) {
             int difMonth = 0;
             int difMonthYear = 0;
 
@@ -49,5 +49,3 @@ public class CompareReport {
         }
     }
 }
-
-

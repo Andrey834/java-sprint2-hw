@@ -5,12 +5,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        String[] months = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
         Scanner inputCommand = new Scanner(System.in);
-        MonthlyReport monthlyReport = new MonthlyReport();
-        YearlyReport yearlyReport = new YearlyReport();
-        LoadReport loadReport = new LoadReport();
-        CompareReport compareReport = new CompareReport();
         HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports = new HashMap<>();
         HashMap<String, ArrayList<YearlyConstructor>> dbYearReports = new HashMap<>();
 
@@ -18,14 +13,14 @@ public class Main {
             PrintMenu.printMenu(dbMonthsReports, dbYearReports);
             String userInput = inputCommand.nextLine();
             if (userInput.equals("1")) { //Считать все месячные отчёты
-                loadReport.loadFileMonth(dbMonthsReports, months);
+                LoadReport.loadFileMonth(dbMonthsReports);
                 if (dbMonthsReports.isEmpty()) {
                     PrintMenu.checkFile();
                 } else {
                     PrintMenu.loadFiles(dbMonthsReports);
                 }
             } else if (userInput.equals("2")) { //Считать годовой отчёт
-                loadReport.loadFileYears(dbYearReports);
+                LoadReport.loadFileYears(dbYearReports);
                 if (dbYearReports.isEmpty()) {
                     PrintMenu.checkFile();
                 } else {
@@ -33,8 +28,9 @@ public class Main {
                 }
             } else if (userInput.equals("3")) { //Сверить отчёты
                 if (!dbMonthsReports.isEmpty() && !dbYearReports.isEmpty()) {
-                    String year = loadReport.year;
-                    compareReport.compare(dbYearReports, dbMonthsReports, months, year);
+                    for (String year : dbYearReports.keySet()) {
+                        CompareReport.compare(dbYearReports, dbMonthsReports, year);
+                    }
                 } else {
                     if (dbMonthsReports.isEmpty()) {
                         PrintMenu.checkLoadMonth();
@@ -48,17 +44,15 @@ public class Main {
                     PrintMenu.checkLoadMonth();
                 } else {
                     PrintMenu.printTable();
-                    for (String month : months) {
-                        if (dbMonthsReports.get(month) != null) {
-                            monthlyReport.getValueMonths(dbMonthsReports.get(month), month);
-                        }
-                    }
+                    MonthlyReport.getValueMonths(dbMonthsReports);
                 }
             } else if (userInput.equals("5")) { //Вывести информацию о годовом отчёте
                 if (dbYearReports.isEmpty()) {
                     PrintMenu.checkLoadYear();
                 } else {
-                    yearlyReport.getReportYear(loadReport.year, dbYearReports.get(loadReport.year), months, dbMonthsReports);
+                    for (String yearReport : dbYearReports.keySet()) {
+                        YearlyReport.getReportYear(yearReport, dbYearReports.get(yearReport), dbMonthsReports);
+                    }
                 }
             } else if (userInput.equals("0")) { //Выход
                 break;
@@ -68,7 +62,3 @@ public class Main {
         }
     }
 }
-
-
-
-
