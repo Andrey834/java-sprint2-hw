@@ -9,7 +9,6 @@ public class Main {
         CompareReport compareReport = new CompareReport();
         HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports = new HashMap<>();
         HashMap<String, ArrayList<YearlyConstructor>> dbYearReports = new HashMap<>();
-        String year = "";
 
         while (true) {
             PrintMenu.printMenu(dbMonthsReports, dbYearReports);
@@ -22,7 +21,7 @@ public class Main {
                     PrintMenu.loadFiles(dbMonthsReports);
                 }
             } else if (userInput.equals("2")) { //Считать годовой отчёт
-                LoadReport.loadFileYears(dbYearReports, year);
+                LoadReport.loadFileYears(dbYearReports);
                 if (dbYearReports.isEmpty()) {
                     PrintMenu.checkFile();
                 } else {

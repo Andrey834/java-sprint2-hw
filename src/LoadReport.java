@@ -31,7 +31,7 @@ class LoadReport {
         }
     }
 
-    protected static void loadFileYears(HashMap<String, ArrayList<YearlyConstructor>> dbReportYear, String year) {
+    protected static void loadFileYears(HashMap<String, ArrayList<YearlyConstructor>> dbReportYear) {
         if (dbReportYear.isEmpty()) {
             ArrayList<YearlyConstructor> transToHashY = new ArrayList<>();
             String fileY = ("resources/y.2021.csv");
@@ -48,8 +48,7 @@ class LoadReport {
                     transToHashY.add(yearlyConstructor);
                 }
             }
-            year = fileY.replaceAll("[^0-9]", "");
-            dbReportYear.put(year, transToHashY);
+            dbReportYear.put(fileY.replaceAll("[^0-9]", ""), transToHashY);
         }
     }
 
