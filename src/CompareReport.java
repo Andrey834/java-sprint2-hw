@@ -2,18 +2,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CompareReport {
-    public void compare(HashMap<String, ArrayList<YearlyConstructor>> dbYear, HashMap<String, ArrayList<MonthlyConstructor>> dbMonths, String year) {
+    public void compare(HashMap<String, ArrayList<YearlyConstructor>> dbYear, HashMap<String, ArrayList<MonthlyConstructor>> dbMonths) {
         HashMap<String, Integer> sumProfitMonths = new HashMap<>(12);
         HashMap<String, Integer> sumProfitYear = new HashMap<>(12);
         ArrayList<String> difMonth = new ArrayList<>();
 
         for (String month : Months.months) {
             int sumMonthYear = 0;
-            for (YearlyConstructor yearlyConstructor : dbYear.get(year)) {
-                if (!yearlyConstructor.isExpenseYear && (yearlyConstructor.monthYear.equals(month))) {
-                    sumMonthYear += yearlyConstructor.amountYear;
-                } else if (yearlyConstructor.isExpenseYear && (yearlyConstructor.monthYear.equals(month))) {
-                    sumMonthYear -= yearlyConstructor.amountYear;
+            for (String s : dbYear.keySet()) {
+                for (YearlyConstructor yearlyConstructor : dbYear.get(s)) {
+                    if (!yearlyConstructor.isExpenseYear && (yearlyConstructor.monthYear.equals(month))) {
+                        sumMonthYear += yearlyConstructor.amountYear;
+                    } else if (yearlyConstructor.isExpenseYear && (yearlyConstructor.monthYear.equals(month))) {
+                        sumMonthYear -= yearlyConstructor.amountYear;
+                    }
                 }
             }
             sumProfitMonths.put(month, sumMonthYear);

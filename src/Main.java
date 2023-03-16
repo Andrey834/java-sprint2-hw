@@ -29,7 +29,7 @@ public class Main {
                 }
             } else if (userInput.equals("3")) { //Сверить отчёты
                 if (!dbMonthsReports.isEmpty() && !dbYearReports.isEmpty()) {
-                    compareReport.compare(dbYearReports, dbMonthsReports, "2021");
+                    compareReport.compare(dbYearReports, dbMonthsReports);
                 } else {
                     if (dbMonthsReports.isEmpty()) {
                         PrintMenu.checkLoadMonth();
