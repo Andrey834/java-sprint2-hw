@@ -6,8 +6,10 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner inputCommand = new Scanner(System.in);
+        CompareReport compareReport = new CompareReport();
         HashMap<String, ArrayList<MonthlyConstructor>> dbMonthsReports = new HashMap<>();
         HashMap<String, ArrayList<YearlyConstructor>> dbYearReports = new HashMap<>();
+        String year = "";
 
         while (true) {
             PrintMenu.printMenu(dbMonthsReports, dbYearReports);
@@ -20,7 +22,7 @@ public class Main {
                     PrintMenu.loadFiles(dbMonthsReports);
                 }
             } else if (userInput.equals("2")) { //Считать годовой отчёт
-                LoadReport.loadFileYears(dbYearReports);
+                LoadReport.loadFileYears(dbYearReports, year);
                 if (dbYearReports.isEmpty()) {
                     PrintMenu.checkFile();
                 } else {
@@ -28,7 +30,7 @@ public class Main {
                 }
             } else if (userInput.equals("3")) { //Сверить отчёты
                 if (!dbMonthsReports.isEmpty() && !dbYearReports.isEmpty()) {
-                    CompareReport.compare(dbYearReports, dbMonthsReports);
+                    compareReport.compare(dbYearReports, dbMonthsReports, "2021");
                 } else {
                     if (dbMonthsReports.isEmpty()) {
                         PrintMenu.checkLoadMonth();
