@@ -49,7 +49,7 @@ class LoadReport {
                 }
             }
             year = fileY.replaceAll("[^0-9]", "");
-            dbReportYear.put(fileY.replaceAll("[^0-9]", ""), transToHashY);
+            dbReportYear.put(year, transToHashY);
         }
     }
 
